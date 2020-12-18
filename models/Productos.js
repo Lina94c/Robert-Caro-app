@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const userSchema = new Schema(
+const productSchema = new Schema(
   {
     name:{
         type:String,
@@ -19,8 +19,12 @@ const userSchema = new Schema(
         type:String,
         required:[true,"Debes ingresar una foto"]
     }
+    //imagen 
+    // Discount
+    // Tienda origen --> este es un id
+    // Número de piezas disponibles
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Productos", userSchema);
+module.exports = mongoose.model("Productos", productSchema);
