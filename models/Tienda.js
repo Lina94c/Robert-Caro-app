@@ -3,6 +3,11 @@ const { Schema } = mongoose;
 
 const storeSchema = new Schema(
   {
+    _user:{
+        type: Schema.Types.ObjectId,
+        ref:"User",
+        required:true
+    },
     name:{
         type:String,
         required: [true, "Debes agregar tu nombre"]

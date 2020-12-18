@@ -40,7 +40,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Estas son las rutas, por practica agregamos prefijo api
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const propertyRouter = require ('./routes/products');
+//const propertyRouter = require ('./routes/products');
+
+app.use('/api', indexRouter);
+app.use('/api/user', usersRouter);
 
 
 module.exports = app;

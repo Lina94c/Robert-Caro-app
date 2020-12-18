@@ -18,7 +18,12 @@ const productSchema = new Schema(
     image:{
         type:String,
         required:[true,"Debes ingresar una foto"]
-    }
+    },
+    _store:{
+        type: Schema.Types.ObjectId,
+        ref:"Tienda",
+        required:true
+    },
     //imagen 
     // Discount
     // Tienda origen --> este es un id

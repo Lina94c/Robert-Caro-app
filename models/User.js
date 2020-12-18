@@ -11,6 +11,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Debes agregar un correo"],
     },
+    password:{
+        type:String,
+        required:[true,"Ingresa una dirección"]
+    },
     address:{
         type:String,
         required:[true,"Ingresa una dirección"]
