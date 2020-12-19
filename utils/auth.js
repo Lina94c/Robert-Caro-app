@@ -10,7 +10,7 @@ exports.verifyToken = (req, res, next) => {
 
     jwt.verify(token, process.env.SECRET, (error, decoded) => {
         //aqui va el codigo
-        if(error) return res.stauts(401).json({error});
+        if(error) return res.status(401).json({error});
         // decoded = {id} o sea un objeto con la llave id (segun lo que ustedes guardaron)
         // Esto va a buscar con el objeto decoded en la llave id (hace referencia a users.js en routes)
         User.findById(decoded.id)
