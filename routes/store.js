@@ -5,55 +5,78 @@ const Store = require('../models/Store');
 const {verifyToken} = require('../utils/auth');
 
 
-
-//ruta para leer todas las reservaciones por usuario
-router.get('/', verifyToken, (req, res, next) => {
-    const {_id} = req.user
-    Reservation.find({_guest: _id})
-        .populate({ // <---- agegar todo este para hacer un populate aninado
-            path:"property",
-            populate:{
-                path:"_owner",
-                select: "name",
-            },
-        })
-        .then((reservations)=>{
-            res.status(200).json({result:reservations})
-        }).catch((error)=>{
-            res.status(400).json({msg:"Algo salio mal", error})
-        })
-});
-
-//ruta para leer todas las reservaciones por propiedad
-router.get('/property/:property_id', verifyToken, (req, res, next) => {
-    const {property_id} = req.params;
-    Reservation.find({_property: property_id})
-        .populate("_guest","name")
-        .then((reservations)=>{
-            res.status(200).json({result:reservations})
-        }).catch((error)=>{
-            res.status(400).json({msg:"Algo salio mal", error})
-        })
-});
-
-//ruta para crear reservacion
+//ruta para crear tienda
 router.post('/', verifyToken, (req, res, next) =>{
-    const { _id:_guest } = req.user
-    const reservation = {...req.body, _guest}
-    Reservation.create(reservation)
-        .then((reservation)=>{
-            res.status(201).json({result:reservation});
+    const { _id:_owner } = req.user
+    const store = {...req.body, _owner}
+    Store.create(store)
+        .then((store)=>{
+            res.status(201).json({result:store});
         }).catch((error)=> {
             res.status(400).json({msg:"Algo salió mal", error});
         });
 });
 
-//ruta para update/editar reservacion
+
+//ruta para leer todas las tiendas por usuario
+router.get('/', verifyToken, (req, res, next) => {
+    const {_id} = req.user
+    Store.find({_owner: _id})
+        .populate({ // <---- agegar todo este para hacer un populate aninado
+            path:"store",
+            populate:{
+                path:"_user",
+                select: "name",
+            },
+        })
+        .then((stores)=>{
+            res.status(200).json({result:stores})
+        }).catch((error)=>{
+            res.status(400).json({msg:"Algo salio mal", error})
+        })
+});
+
+//ruta para leer una tienda por ID
+router.get('/:id', verifyToken, (req, res, next) => {
+    const {id} = req.params
+    Store.findById(id)
+        .populate({ // <---- agegar todo este para hacer un populate aninado
+            path:"store",
+            populate:{
+                path:"_user",
+                select: "name",
+            },
+        })
+        .then((stores)=>{
+            res.status(200).json({result:stores})
+        }).catch((error)=>{
+            res.status(400).json({msg:"Algo salio mal", error})
+        })
+});
+
+//ruta para leer todas las tiendas
+router.get('/all-stores', (req, res, next) => {
+    Store.find()
+        .populate({ // <---- agegar todo este para hacer un populate aninado
+            path:"store",
+            populate:{
+                path:"_user",
+                select: "name",
+            },
+        })
+        .then((stores)=>{
+            res.status(200).json({result:stores})
+        }).catch((error)=>{
+            res.status(400).json({msg:"Algo salio mal", error})
+        })
+});
+
+//ruta para update/editar una tienda
 router.patch('/:id', verifyToken, (req, res, next) =>{
     const {id} = req.params;
-    Reservation.findByIdAndUpdate(id, req.body, {new:true})
-        .then((reservation)=>{
-            res.status(200).json({result:reservation})
+    Store.findByIdAndUpdate(id, req.body, {new:true})
+        .then((store)=>{
+            res.status(200).json({result:store})
         }).catch((error)=>{
             res.status(400).json({msg:"Algo salió mal", error})
         })
@@ -63,9 +86,9 @@ router.patch('/:id', verifyToken, (req, res, next) =>{
 router.delete('/:id', verifyToken, (req, res, next) =>{
     const {id} = req.params;
     // req.body = {title:"perro", edad: "2", ...}
-    Reservation.findByIdAndDelete(id)
-        .then((reservation)=>{
-            res.status(200).json({msg:"Se borró la reservación"})
+    Store.findByIdAndDelete(id)
+        .then((store)=>{
+            res.status(200).json({msg:"Se borró la tienda"})
         }).catch((error)=>{
             res.status(400).json({msg:"Algo salió mal", error})
         })

@@ -2,6 +2,7 @@
 
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Store = require('../models/Store')
 
 exports.verifyToken = (req, res, next) => {
     //usamos verifyToken para ver si existe un token
@@ -16,6 +17,25 @@ exports.verifyToken = (req, res, next) => {
             .then((user)=>{
                 // guardamos el usuario en el req.user para poder usarlo en cualquier lugar
                 req.user = user;
+                // con el next le decimos ya puedes seguir
+                next()
+            });
+    });
+};
+
+exports.verifyStore = (req, res, next) => {
+    //usamos verifyToken para ver si existe un token
+    const {token} = req.cookies;
+
+    jwt.verify(token, process.env.SECRET, (error, decoded) => {
+        //aqui va el codigo
+        if(error) return res.stauts(401).json({error});
+        // decoded = {id} o sea un objeto con la llave id (segun lo que ustedes guardaron)
+        // Esto va a buscar con el objeto decoded en la llave id (hace referencia a users.js en routes)
+        Store.find({_owner: decoded.id})
+            .then((store)=>{
+                // guardamos el usuario en el req.user para poder usarlo en cualquier lugar
+                req.user = store;
                 // con el next le decimos ya puedes seguir
                 next()
             });

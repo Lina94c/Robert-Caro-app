@@ -1,10 +1,10 @@
-const {Schema, model} = require('mongoose');
+const {Schema, model, isValidObjectId} = require('mongoose');
 
 const productSchema = new Schema(
     {
         _store: { /**Revisar que la referencia esté bien configurada despues de hacer el modelo de seller */
-            type: Schema.Types.ObjectId,
-            ref:"Store",
+            type:Schema.Types.ObjectId,
+            ref:'Store',
             required: [true, "El producto debe de estar asociado a un vendedor"],
         },
         title: {
@@ -24,10 +24,10 @@ const productSchema = new Schema(
             type: Number,
             default: 0,
         },
-        images: {
-            type:[String],
+        images: [{
+            type:String,
             minlength:[1, "El producto debe de contener al menos 1 imagen"],
-        },
+        }],
         inventory: { /**Revisar con Dylan que el min y required pueda cambiarse despues en caso de que se agote un producto */
             type: Number,
             min:[1, "Requieres tener al menos una unidad en exitensia para ofertar el producto"],

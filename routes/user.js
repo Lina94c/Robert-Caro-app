@@ -46,7 +46,7 @@ router.post('/login', (req, res, next) => {
                   const newUser = clearRes(user.toObject())
 
 
-                //esto nos genera un toke mezclando un valor (id) mas la palabra secreta y tiene una duracion de un dia!!!
+                //esto nos genera un token mezclando un valor (id) mas la palabra secreta y tiene una duracion de un dia!!!
                 const  token = jwt.sign({id: user._id}, process.env.SECRET, {
                   expiresIn:"1d"
                 })

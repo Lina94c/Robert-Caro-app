@@ -41,14 +41,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
-// const storeRouter = require('./routes/store');
-// const productRouter = require('./routes/product');
+const storeRouter = require('./routes/store');
+const productRouter = require('./routes/product');
 // const addressRouter = require('./routes/address');
 
 app.use('/api', indexRouter);
 app.use('/api/user', userRouter);
-// app.use('/api/store', storeRouter);
-// app.use('/api/product', productRouter)
+app.use('/api/store', storeRouter);
+app.use('/api/product', productRouter)
 
 
 module.exports = app;

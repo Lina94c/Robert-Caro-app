@@ -2,7 +2,7 @@ const {Schema, model} = require('mongoose');
 
 const storeSchema = new Schema(
 {
-    _user:{
+    _owner:{
         type: Schema.Types.ObjectId,
         ref:"User",
         required: [true, "La tienda debe tener un dueño"],
