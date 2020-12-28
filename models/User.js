@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
@@ -25,7 +24,6 @@ const userSchema = new Schema(
 );
 
 module.exports = mongoose.model("User", userSchema);
-=======
 const mongoose = require("mongoose")
 //Schema = Schema
 const {Schema} = mongoose;
@@ -77,4 +75,4 @@ const userSchema = new Schema(
 );
 
 module.exports = mongoose.model("User",userSchema)
->>>>>>> origin/Integration
+

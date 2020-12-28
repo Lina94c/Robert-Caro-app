@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //agregar dontenv
 require("dotenv").config();
 
@@ -31,16 +30,6 @@ app.use(
     })
 );
 
-=======
-//agregar dotenv
-require("dotenv").config();
-
-
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
->>>>>>> origin/Integration
 
 const mongoose = require("mongoose");
 const cors = require('cors')
@@ -74,7 +63,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-<<<<<<< HEAD
 //Estas son las rutas, por practica agregamos prefijo api
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -82,18 +70,6 @@ const usersRouter = require('./routes/users');
 
 app.use('/api', indexRouter);
 app.use('/api/user', usersRouter);
-=======
-const indexRouter = require('./routes/index');
-const userRouter = require('./routes/user');
-const storeRouter = require('./routes/store');
-const productRouter = require('./routes/product');
-// const addressRouter = require('./routes/address');
-
-app.use('/api', indexRouter);
-app.use('/api/user', userRouter);
-app.use('/api/store', storeRouter);
-app.use('/api/product', productRouter)
->>>>>>> origin/Integration
 
 
 module.exports = app;
