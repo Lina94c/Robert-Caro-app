@@ -22,8 +22,6 @@ router.post('/store/:_id', verifyToken, (req, res, next) =>{
                 })
                
             } else {
-                // console.log(store._owner)
-                // console.log(_id)
                res.status(403).json({msg:"No tienes permisos para crear productos"}) 
             }
             

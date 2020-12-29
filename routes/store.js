@@ -19,7 +19,7 @@ router.post('/', verifyToken, (req, res, next) =>{
 
 
 //ruta para leer todas las tiendas por usuario
-router.get('/', verifyToken, (req, res, next) => {
+router.get('/user/', verifyToken, (req, res, next) => {
     const {_id} = req.user
     Store.find({_owner: _id})
         .populate({ // <---- agegar todo este para hacer un populate aninado
@@ -41,9 +41,9 @@ router.get('/:id', verifyToken, (req, res, next) => {
     const {id} = req.params
     Store.findById(id)
         .populate({ // <---- agegar todo este para hacer un populate aninado
-            path:"store",
+            path:"_owner",
             populate:{
-                path:"_user",
+                path:"user",
                 select: "name",
             },
         })
@@ -55,12 +55,12 @@ router.get('/:id', verifyToken, (req, res, next) => {
 });
 
 //ruta para leer todas las tiendas
-router.get('/all-stores', (req, res, next) => {
+router.get('/', (req, res, next) => {
     Store.find()
         .populate({ // <---- agegar todo este para hacer un populate aninado
-            path:"store",
+            path:"_owner",
             populate:{
-                path:"_user",
+                path:"user",
                 select: "name",
             },
         })
@@ -74,23 +74,48 @@ router.get('/all-stores', (req, res, next) => {
 //ruta para update/editar una tienda
 router.patch('/:id', verifyToken, (req, res, next) =>{
     const {id} = req.params;
-    Store.findByIdAndUpdate(id, req.body, {new:true})
+    const {_id} = req.user;
+    Store.findById(id)
         .then((store)=>{
-            res.status(200).json({result:store})
-        }).catch((error)=>{
-            res.status(400).json({msg:"Algo salió mal", error})
+            const storeOwner = JSON.stringify(store._owner)
+            const idString = JSON.stringify(_id)
+            console.log(storeOwner)
+            console.log(idString)
+            if( storeOwner === idString){
+                Store.findByIdAndUpdate(id, req.body, {new:true})
+                .then((store)=>{
+                    res.status(200).json({result:store})
+                })
+            } else {
+                res.status(403).json({msg:"no tienes permisos para editar esta tienda"})
+            }
+        })
+        .catch((error)=>{
+           res.status(400).json({msg:"Algo salió mal", error}) 
         })
 })
 
-//ruta para borrar propiedad
+//ruta para borrar tienda
 router.delete('/:id', verifyToken, (req, res, next) =>{
     const {id} = req.params;
-    // req.body = {title:"perro", edad: "2", ...}
-    Store.findByIdAndDelete(id)
+    const {_id} = req.user;
+    Store.findById(id)
         .then((store)=>{
-            res.status(200).json({msg:"Se borró la tienda"})
-        }).catch((error)=>{
-            res.status(400).json({msg:"Algo salió mal", error})
+            const storeOwner = JSON.stringify(store._owner)
+            const idString = JSON.stringify(_id)
+            console.log(storeOwner)
+            console.log(idString)
+            if( storeOwner === idString){
+                Store.findByIdAndDelete(id)
+                .then((store)=>{
+                    res.status(200).json({result:store})
+                })
+            } else {
+                res.status(403).json({msg:"no tienes permisos para borrar esta tienda"})
+            }
+        })
+        .catch((error)=>{
+           res.status(400).json({msg:"Algo salió mal", error}) 
         })
 })
 
