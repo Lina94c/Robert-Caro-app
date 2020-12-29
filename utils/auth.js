@@ -1,4 +1,4 @@
-// esto nos va a servir para verificar si existe un usario y un token
+//esto nos va a servir para verificar si existe un usario y un token
 
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
