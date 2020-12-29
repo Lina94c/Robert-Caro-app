@@ -45,6 +45,10 @@ const storeSchema = new Schema(
             required: [true, "Debes incluir el país"],
             default: "Mexico"
         },
+        zipcode: {
+            type: String,
+            length: [5, "Debes de incluir el código postal"],
+        },
         },
         bank_account: {
             clabe: {

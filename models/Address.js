@@ -7,7 +7,6 @@ const addressSchema = new Schema(
         ref:"user",
         required: [true, "La tienda debe tener un dueño"],
     },
-    address:[{
         street: {
             type: String,
             required:[true, "Debes de incluir la dirección de la ubicación donde se recolectarán los productos"]
@@ -37,9 +36,12 @@ const addressSchema = new Schema(
             required: [true, "Debes incluir el país"],
             default: "Mexico"
         },
-        }],
-},
+        zipcode: {
+            type: String,
+            length: [5, "Debes de incluir el código postal de 5 digitos"],
+        }
+    },  
 {timestamps:true}
 
     );
-    module.exports = model("Store",storeSchema)
+    module.exports = model("Address",addressSchema)
