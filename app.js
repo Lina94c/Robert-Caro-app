@@ -29,7 +29,7 @@ const app = express();
 //utilizo cors para darle permisos a otras apps
 app.use(
     cors({
-        origin: ['http://localhost:3001', 'https://robert-caro-back.herokuapp.com/'],
+        origin: ['http://localhost:3001', 'https://robert-caro-back.herokuapp.com'],
         credentials: true,
     })
 )
