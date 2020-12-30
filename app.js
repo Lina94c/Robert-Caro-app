@@ -1,11 +1,18 @@
 //agregar dotenv
 require("dotenv").config();
+
+
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+
 const mongoose = require("mongoose");
 const cors = require('cors')
+
+
+
+//Agregamos la conexion de mongoose
 
 mongoose.connect(process.env.DB,{
    useNewUrlParser:true,
