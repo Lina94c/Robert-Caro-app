@@ -9,7 +9,7 @@ const addressSchema = new Schema(
     },
         street: {
             type: String,
-            required:[true, "Debes de incluir la dirección de la ubicación donde se recolectarán los productos"]
+            required:[true, "Debes de incluir la la calle en tu dirección"]
         },
         ext_number: {
             type: String,

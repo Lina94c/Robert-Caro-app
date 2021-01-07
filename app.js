@@ -10,11 +10,12 @@ const logger = require('morgan');
 const mongoose = require("mongoose");
 const cors = require('cors')
 
-
+const database = process.env.DB
+//const database = 'mongodb://localhost/robert-caro-app'
 
 //Agregamos la conexion de mongoose
 
-mongoose.connect(process.env.DB,{
+mongoose.connect(database,{
    useNewUrlParser:true,
    useUnifiedTopology:true 
 }).then((x)=>{
@@ -29,7 +30,7 @@ const app = express();
 //utilizo cors para darle permisos a otras apps
 app.use(
     cors({
-        origin: ['http://localhost:3001','https://robert-caro-app.herokuapp.com'],
+        origin: ['http://localhost:3001','https://robert-caro-back.herokuapp.com'],
         credentials: true,
     })
 )
@@ -44,12 +45,14 @@ const userRouter = require('./routes/user');
 const storeRouter = require('./routes/store');
 const productRouter = require('./routes/product');
 const addressRouter = require('./routes/address');
+const searchRouter = require('./routes/search')
 
 app.use('/api', indexRouter);
 app.use('/api/user', userRouter);
 app.use('/api/store', storeRouter);
 app.use('/api/product', productRouter);
-app.use('/api/address', addressRouter)
+app.use('/api/address', addressRouter);
+app.use('/api/search', searchRouter)
 
 
 module.exports = app;
