@@ -10,8 +10,8 @@ const logger = require('morgan');
 const mongoose = require("mongoose");
 const cors = require('cors')
 
-const database = process.env.DB
-//const database = 'mongodb://localhost/robert-caro-app'
+//const database = process.env.DB
+const database = 'mongodb://localhost/robert-caro-app'
 
 //Agregamos la conexion de mongoose
 
@@ -52,7 +52,7 @@ app.use('/api/user', userRouter);
 app.use('/api/store', storeRouter);
 app.use('/api/product', productRouter);
 app.use('/api/address', addressRouter);
-app.use('/api/search', searchRouter)
+app.use('/api/search', searchRouter);
 
 
 module.exports = app;
