@@ -55,7 +55,6 @@ router.post('/login', (req, res, next) => {
                   expires:new Date(Date.now + 86400000),
                   secure:false,
                   httpOnly:true,
-                  sameSite:'none'
                 }).json({user:newUser,code:200}) //newUser utilizando utils clearRes... si no sería withoutPass (user:withoutPass)
             }else{
               return res.status(401).json({msg:"La contraseña ingresada es incorrecta"})
