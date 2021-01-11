@@ -2,9 +2,9 @@ const {Schema, model, isValidObjectId} = require('mongoose');
 
 const productSchema = new Schema(
     {
-        _store: { /**Revisar que la referencia esté bien configurada despues de hacer el modelo de seller */
+        _owner: { /**Revisar que la referencia esté bien configurada despues de hacer el modelo de seller */
             type:Schema.Types.ObjectId,
-            ref:'Store',
+            ref:'User',
             required: [true, "El producto debe de estar asociado a un vendedor"],
         },
         title: {

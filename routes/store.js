@@ -19,7 +19,7 @@ router.post('/', verifyToken, (req, res, next) =>{
 
 
 //ruta para leer todas las tiendas por usuario
-router.get('/user/', verifyToken, (req, res, next) => {
+router.get('/user', verifyToken, (req, res, next) => {
     const {_id} = req.user
     Store.find({_owner: _id})
         .populate({ // <---- agegar todo este para hacer un populate aninado

@@ -7,45 +7,38 @@ const {verifyToken} = require('../utils/auth');
 
 
 //ruta para crear producto
-router.post('/store/:_id', verifyToken, (req, res, next) =>{
-    const { _id:_store } = req.params
-    const product = {...req.body, _store}
-    const {_id} = req.user
-    Store.findById(_store)
-        .then((store)=> {
-            const storeOwner = JSON.stringify(store._owner)
-            const idString = JSON.stringify(_id)
-            if(storeOwner === idString) {
-                Product.create(product)
-                 .then((product)=>{
-                    res.status(201).json({result:product});
+router.post('/', verifyToken, (req, res, next) =>{
+    const { _id:_owner } = req.user
+    const product = {...req.body, _owner}
+    Product.create(product)
+        .then((product)=>{
+            res.status(201).json({result:product});
                 })
-               
-            } else {
-               res.status(403).json({msg:"No tienes permisos para crear productos"}) 
-            }
-            
-        })
-    .catch((error)=> {
+        .catch((error)=> {
                 res.status(400).json({msg:"Algo salió mal", error});
     })
 });
 
 
 //ruta para leer todos los productos por tienda
-router.get('/store/:_id', verifyToken, (req, res, next) => {
-    const {_id} = req.params
-    Product.find({_store: _id})
-        .populate({ // <---- agegar todo este para hacer un populate aninado
-            path:"product",
-            populate:{
-                path:"_store",
-                select: "name",
-            },
+router.get('/store/:id', verifyToken, (req, res, next) => {
+    const {id} = req.params
+    Store.findById(id)
+        .then((store)=>{
+            const owner = store._owner
+            Product.find({_owner:owner})
+                .populate({
+                    path:"product",
+                    populate:{
+                        path:"_store",
+                        select: "name",
+                    },
+                })
+                .then((products)=>{
+                    res.status(200).json({results:products})
+                })
         })
-        .then((products)=>{
-            res.status(200).json({result:products})
-        }).catch((error)=>{
+        .catch((error)=>{
             res.status(400).json({msg:"Algo salio mal", error})
         })
 });
@@ -68,15 +61,14 @@ router.get('/', (req, res, next) => {
 });
 
 //ruta para update/editar un producto
-router.patch('/store/:_id/:id', verifyToken, (req, res, next) =>{
+router.patch('/:id', verifyToken, (req, res, next) =>{
     const {id} = req.params;
-    const {_id:_store} = req.params;
     const {_id} = req.user
-    Store.findById(_store)
-        .then((store)=> {
-            const storeOwner = JSON.stringify(store._owner)
+    Product.findById(id)
+        .then((product)=> {
+            const Owner = JSON.stringify(product._owner)
             const idString = JSON.stringify(_id)
-            if(storeOwner === idString) {
+            if(Owner === idString) {
                 Product.findByIdAndUpdate(id, req.body, {new:true})
                     .then((product)=>{
                         res.status(210).json({result:product})
@@ -93,15 +85,14 @@ router.patch('/store/:_id/:id', verifyToken, (req, res, next) =>{
 
 //ruta para borrar un producto
 
-router.delete('/store/:_id/:id', verifyToken, (req, res, next) =>{
+router.delete('/:id', verifyToken, (req, res, next) =>{
     const {id} = req.params;
-    const {_id:_store} = req.params;
     const {_id} = req.user
-    Store.findById(_store)
-        .then((store) =>{
-            const storeOwner = JSON.stringify(store._owner)
+    Product.findById(id)
+        .then((product) =>{
+            const Owner = JSON.stringify(product._owner)
             const idString = JSON.stringify(_id)
-            if(storeOwner === idString) {
+            if(Owner === idString) {
                 Product.findByIdAndDelete(id)
                     .then((product)=>{
                         res.status(210).json({result:product})

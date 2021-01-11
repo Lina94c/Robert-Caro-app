@@ -1,3 +1,4 @@
+const mongoose = require("mongoose")
 const {Schema, model} = require('mongoose');
 
 const storeSchema = new Schema(
@@ -6,6 +7,13 @@ const storeSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref:"User",
         required: [true, "La tienda debe tener un dueño"],
+        validate:{
+            message:"El email ya tiene una tienda asociada",
+            validator: async ( _owner) => {
+                const items = await mongoose.models["Store"].count({_owner})
+                return items < 1
+            },
+        },
     },
     store_name:{
         type: String,

@@ -32,7 +32,7 @@ const userSchema = new Schema(
         type:String,
         required:[true,"Debes agregar un email"],
         validate:{
-            message:"El email ya tiene una tienda asociada",
+            message:"El email ya tiene una cuenta asociada",
             validator: async ( email ) => {
                 const items = await mongoose.models["User"].count({email})
                 return items < 1
