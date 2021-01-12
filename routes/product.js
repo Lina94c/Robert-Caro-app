@@ -43,16 +43,20 @@ router.get('/store/:id', verifyToken, (req, res, next) => {
         })
 });
 
-//ruta para leer todos los productos
+//ruta para leer todos los productos por query
 router.get('/', (req, res, next) => {
-    Product.find()
-        .populate({ // <---- agegar todo este para hacer un populate aninado
-            path:"product",
-            populate:{
-                path:"_store",
-                select: "name",
-            },
+    Product.find(req.query)
+        .populate("_owner", "_id name lastname")
+        .then((products)=>{
+            res.status(200).json({result:products})
+        }).catch((error)=>{
+            res.status(400).json({msg:"Algo salio mal", error})
         })
+});
+
+//ruta para leer todos los productos
+router.get('/allproducts', (req, res, next) => {
+    Product.find()
         .then((products)=>{
             res.status(200).json({result:products})
         }).catch((error)=>{
