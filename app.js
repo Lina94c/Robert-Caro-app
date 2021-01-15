@@ -10,8 +10,8 @@ const logger = require('morgan');
 const mongoose = require("mongoose");
 const cors = require('cors')
 
-//const database = process.env.DB
-const database = 'mongodb://localhost/robert-caro-app'
+const database = process.env.DB
+//const database = 'mongodb://localhost/robert-caro-app'
 
 //Agregamos la conexion de mongoose
 
@@ -30,7 +30,7 @@ const app = express();
 //utilizo cors para darle permisos a otras apps
 app.use(
     cors({
-        origin: ['http://localhost:3001','https://robert-caro-back.herokuapp.com'],
+        origin: ['http://localhost:3001','https://robert-caro-front.herokuapp.com'],
         credentials: true,
     })
 )
