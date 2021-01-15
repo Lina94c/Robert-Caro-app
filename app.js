@@ -54,5 +54,8 @@ app.use('/api/product', productRouter);
 app.use('/api/address', addressRouter);
 app.use('/api/search', searchRouter);
 
+app.use("*", (req,res)=>{
+ res.sendFile(path.join(__dirname, "public","index.html"));
+});
 
 module.exports = app;
