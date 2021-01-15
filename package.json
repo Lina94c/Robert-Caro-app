@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "dev": "nodemon ./bin/www",
+    "prearmado": "cd ../Robert.Caro-front-app && yarn build",
+    "armado": "cp -r ../Robert.Caro-front-app/build/ public"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
