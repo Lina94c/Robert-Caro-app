@@ -54,9 +54,22 @@ router.get('/', (req, res, next) => {
         })
 });
 
+//ruta para leer producto por id
+router.get('/id/:_id', (req, res, next) => {
+    const {_id} = req.params
+    Product.findById(_id)
+        .populate("_owner", "_id name lastname")
+        .then((products)=>{
+            res.status(200).json({result:products})
+        }).catch((error)=>{
+            res.status(400).json({msg:"Algo salio mal", error})
+        })
+});
+
 //ruta para leer todos los productos
 router.get('/allproducts', (req, res, next) => {
     Product.find()
+        .populate("_owner", "_id name lastname")
         .then((products)=>{
             res.status(200).json({result:products})
         }).catch((error)=>{
