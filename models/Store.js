@@ -20,8 +20,8 @@ const storeSchema = new Schema(
         required:[true,"Debes agregar el nombre de la tienda"]
     },
     store_picture:{
-        type:String,
-        default:"https://www.centraltrials.com/wp-content/uploads/2016/11/User-Default.jpg"
+        type: String,
+        default:"https://cdn.icon-icons.com/icons2/1706/PNG/512/3986701-online-shop-store-store-icon_112278.png"
     },
    
     street: {
