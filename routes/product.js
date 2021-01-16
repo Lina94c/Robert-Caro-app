@@ -10,13 +10,15 @@ const {verifyToken} = require('../utils/auth');
 router.post('/', verifyToken, (req, res, next) =>{
     const { _id:_owner } = req.user
     const product = {...req.body, _owner}
-    Product.create(product)
+        Product.create(product)
         .then((product)=>{
             res.status(201).json({result:product});
                 })
         .catch((error)=> {
-                res.status(400).json({msg:"Algo salió mal", error});
+        res.status(400).json({msg:"Algo salió mal", error});
     })
+    
+    
 });
 
 
@@ -27,13 +29,6 @@ router.get('/store/:id', verifyToken, (req, res, next) => {
         .then((store)=>{
             const owner = store._owner
             Product.find({_owner:owner})
-                .populate({
-                    path:"product",
-                    populate:{
-                        path:"_store",
-                        select: "name",
-                    },
-                })
                 .then((products)=>{
                     res.status(200).json({results:products})
                 })
@@ -46,7 +41,7 @@ router.get('/store/:id', verifyToken, (req, res, next) => {
 //ruta para leer todos los productos por query
 router.get('/', (req, res, next) => {
     Product.find(req.query)
-        .populate("_owner", "_id name lastname")
+        .populate("_owner", "_id name lastname")        
         .then((products)=>{
             res.status(200).json({result:products})
         }).catch((error)=>{
